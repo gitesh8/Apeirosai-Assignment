@@ -118,7 +118,7 @@ cd Apeirosai-Assignment
 2. **Run the app:**
 
 ```bash
-mvn spring-boot:run
+Use any IDE that supports springboot
 ```
 
 3. **Access APIs and Swagger UI:**
