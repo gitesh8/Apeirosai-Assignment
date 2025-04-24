@@ -147,9 +147,3 @@ Use any IDE that supports springboot
 
 ---
 
-## 📄 License
-
-This project is developed for educational and demonstration purposes.
-
----
-
