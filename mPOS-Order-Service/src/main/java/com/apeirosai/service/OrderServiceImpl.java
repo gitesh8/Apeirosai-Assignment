@@ -112,7 +112,7 @@ public class OrderServiceImpl implements OrdersService {
 		// TODO Auto-generated method stub
 		
 		// QR Code Content
-		String details = String.format("OrderID: %s\nTotal: Rs %s\nCustomer Name: %s", orderId,totalPrice,customerName);
+		String details = String.format("OrderID: %s\nTotal: Rs. %s\nCustomer Name: %s", orderId,totalPrice,customerName);
 		
 		// QR Code Structure
 		Integer width = 300;
