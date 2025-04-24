@@ -2,6 +2,8 @@
 
 A backend system simulating a **mobile Point-of-Sale (mPOS)** application using **Spring Boot**, providing REST APIs for product and order management, along with QR code generation for order confirmation.
 
+![](swagger%20ui.PNG)
+
 ---
 
 ## 📺 Walkthrough Video
