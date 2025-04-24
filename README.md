@@ -4,6 +4,11 @@ A backend system simulating a **mobile Point-of-Sale (mPOS)** application using 
 
 ---
 
+## 📺 Walkthrough Video
+
+### Watch the walkthrough video here: [Walkthrough Video](https://drive.google.com/file/d/1cPv7VGHNuum3im0RNbQBjexnMoIgm7fy/view?usp=sharing)
+---
+
 ## 🚀 Tech Stack
 
 - Java 21
