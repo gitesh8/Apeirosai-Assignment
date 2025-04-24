@@ -47,18 +47,25 @@ public class OrderServiceImpl implements OrdersService {
 		
 		double totalAmount = 0;
 		
+		
+		// traversing ordersItems
 		for(OrderItems item: ordersItems) {
 			
-			
+			// extracting product with product id
 			Optional<Product> product = productRepo.findById(item.getProductId());
 			
+			// checking product stock and product is present
 			if(product.isPresent() && product.get().getStock()>=item.getQuantity()) {
 				
+				// updating total amount
 				totalAmount += product.get().getPrice()*item.getQuantity();
 				
 				
 			}
+			// updating product stock
 			product.get().setStock(product.get().getStock() - item.getQuantity());
+			
+			// updating product name for each item
 			item.setProductName(product.get().getName());
 			
 			// updating product stock
@@ -70,20 +77,22 @@ public class OrderServiceImpl implements OrdersService {
 			
 		}
 		
+		// generating order ID
 		String OrderId = "ORD_"+UUID.randomUUID().toString().replace("-", "").substring(0,7);
+		
+		// generating QR Code Base64 URL
 		String QRCodebase64Url = createQrCodeBase64Url(OrderId,customerName, totalAmount);
 		
-		// creating Order
+		// creating Orders object 
 		Orders order = new Orders();
 		order.setCustomerName(customerName);
 		order.setItems(ordersItems);
 		order.setOrderId(OrderId);
 		order.setTotalAmount(totalAmount);
+		order.setBas64QRCode(QRCodebase64Url);
 		
-		
-		
+		// storing updated orders 
 		Orders updatedOrders = orderRepo.save(order);
-		updatedOrders.setBas64QRCode(QRCodebase64Url);
 		
 		return updatedOrders;
 	}
@@ -92,6 +101,7 @@ public class OrderServiceImpl implements OrdersService {
 	public List<Orders> getAllOrders() {
 		// TODO Auto-generated method stub
 		
+		// fetching all the orders
 		List<Orders> orders = orderRepo.findAll();
 		
 		return orders;
@@ -101,23 +111,28 @@ public class OrderServiceImpl implements OrdersService {
 	public String createQrCodeBase64Url(String orderId, String customerName, Double totalPrice) {
 		// TODO Auto-generated method stub
 		
+		// QR Code Content
 		String details = String.format("OrderID: %s\nTotal: Rs %s\nCustomer Name: %s", orderId,totalPrice,customerName);
 		
+		// QR Code Structure
 		Integer width = 300;
 		Integer height = 300;
 		String imageFormat = "png";
 		
-		Map<EncodeHintType,Object> hints = new HashMap<>();
-		hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
 		try {
+			
+			// Encoding content to QR Code
+			Map<EncodeHintType,Object> hints = new HashMap<>();
+			hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
 			BitMatrix bitmatrix = new MultiFormatWriter().encode(details,BarcodeFormat.QR_CODE,width,height,hints);
 			
+			// Converting to to BufferedImage
 			BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitmatrix);
 			
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(bufferedImage, imageFormat, baos);
-			
-			byte[] imageBytes = baos.toByteArray();
+			// Converting to Base64
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			ImageIO.write(bufferedImage, imageFormat, byteArrayOutputStream);
+			byte[] imageBytes = byteArrayOutputStream.toByteArray();
 			
 			return Base64.getEncoder().encodeToString(imageBytes);
 			

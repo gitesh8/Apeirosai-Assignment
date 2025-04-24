@@ -18,6 +18,7 @@ public class ProductServiceImpl implements ProductService {
 	public Product addProduct(Product p) {
 		// TODO Auto-generated method stub
 		
+		// saving product object
 		Product product = productRepo.save(p);
 		
 		return product;
@@ -27,6 +28,7 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> allProducts() {
 		// TODO Auto-generated method stub
 		
+		// Fetching all the products
 		List<Product> products = productRepo.findAll();
 		
 		return products;
